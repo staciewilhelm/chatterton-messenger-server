@@ -7,6 +7,5 @@ import (
 )
 
 func main() {
-	app := config.Server{}
-	app.StartServer()
+	config.StartServer()
 }
