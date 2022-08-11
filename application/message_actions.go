@@ -1,44 +1,17 @@
 package application
 
 import (
-	"time"
-
-	"github.com/google/uuid"
-
 	"chatterton-messenger-server/domain"
+	"chatterton-messenger-server/models"
 )
 
-type MessageApplication struct{}
+func (app *MessageApplication) GetMessages(params *domain.QueryParams) ([]models.Message, error) {
+	messages, err := models.FindAll(params)
+	if err != nil {
+		return nil, err
+	}
 
-func (app *MessageApplication) GetMessages() ([]domain.Message, error) {
-	return []domain.Message{
-		{
-			ID:          uuid.New(),
-			RecipientID: "recipient-id",
-			SenderID:    "sender-id",
-			Text:        "First message",
-			CreatedAt:   time.Now(),
-		},
-		{
-			ID:          uuid.New(),
-			RecipientID: "recipient-id",
-			SenderID:    "sender-id",
-			Text:        "Second message",
-			CreatedAt:   time.Now(),
-		},
-		{
-			ID:          uuid.New(),
-			RecipientID: "sender-id",
-			SenderID:    "recipient-id",
-			Text:        "A reply",
-			CreatedAt:   time.Now(),
-		},
-		{
-			ID:          uuid.New(),
-			RecipientID: "recipient-two-id",
-			SenderID:    "sender-id",
-			Text:        "A message to someone else.",
-			CreatedAt:   time.Now(),
-		},
-	}, nil
+	return messages, nil
 }
+
+type MessageApplication struct{}

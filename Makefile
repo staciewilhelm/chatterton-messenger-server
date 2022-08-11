@@ -7,10 +7,10 @@ clean-code:
 deps:
 	go mod
 
-start-clean: reset-db
+start-clean: reset-db clean-code
 	go run main.go
 
-start:
+start: clean-code
 	go run main.go
 
 # Database Migrations
@@ -29,7 +29,7 @@ migrate-up: setup-migrations
 
 # Tests
 run-tests:
-	ginkgo
+	go test -ginkgo.randomizeAllSpecs
 
 setup-tests:
 	export PATH=$PATH:$(go env GOPATH)/bin

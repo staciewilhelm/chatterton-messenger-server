@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -10,6 +11,7 @@ import (
 	"github.com/gorilla/mux"
 
 	"chatterton-messenger-server/application"
+	"chatterton-messenger-server/domain"
 	"chatterton-messenger-server/middleware"
 )
 
@@ -55,9 +57,13 @@ func (app *ApplicationHandlers) handleBaseGet(w http.ResponseWriter, r *http.Req
 }
 
 func (app *ApplicationHandlers) handleMessagesGet(w http.ResponseWriter, req *http.Request) (interface{}, error) {
-	resp, err := app.GetMessages()
+	params := domain.GetQueryParams(req)
+
+	resp, err := app.GetMessages(params)
 	if err != nil {
 		log.Println("Error returning messages from app", err)
+		appErr := fmt.Sprintf("Error returning messages from app: %s", err)
+		return nil, errors.New(appErr)
 	}
 
 	return resp, nil

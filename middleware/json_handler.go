@@ -26,7 +26,6 @@ func (fn JSONHandlerFunc) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	resp, err := fn(w, req)
-
 	if err != nil {
 		errorList = append(errorList, err.Error())
 		api.Response.Code = strconv.Itoa(http.StatusBadRequest)
