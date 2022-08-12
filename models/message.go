@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"chatterton-messenger-server/domain"
+	"github.com/staciewilhelm/chatterton-messenger-server/domain"
 )
 
 type Message struct {

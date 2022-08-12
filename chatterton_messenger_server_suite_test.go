@@ -8,8 +8,8 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"chatterton-messenger-server/domain"
-	"chatterton-messenger-server/models"
+	"github.com/staciewilhelm/chatterton-messenger-server/domain"
+	"github.com/staciewilhelm/chatterton-messenger-server/models"
 )
 
 func TestChattertonMessengerServer(t *testing.T) {

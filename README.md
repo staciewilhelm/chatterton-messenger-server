@@ -115,8 +115,10 @@ Example error response
 Chatterton runs using [Go](https://go.dev/) v1.19 and [PostgreSQL](https://www.postgresql.org/) v12.
 
 ## Setup
-Ensure both `GOPATH` and `GOROOT` are set correctly. To install dependencies, either user `make deps` or install each
-package from `go.mod` individually.
+Ensure both `GOPATH` and `GOROOT` are set correctly, and that `GO111MODULE` is set to `on`.
+
+To install dependencies, either user `make deps` or install each package from `go.mod` individually. If you
+return errors, try running `go mod tidy` first.
 
 Rename `sample.env` to `.env` and set the environment variables for your PostgreSQL database:
 ```

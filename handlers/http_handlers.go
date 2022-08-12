@@ -11,10 +11,10 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"chatterton-messenger-server/application"
-	"chatterton-messenger-server/domain"
-	"chatterton-messenger-server/middleware"
-	"chatterton-messenger-server/models"
+	"github.com/staciewilhelm/chatterton-messenger-server/application"
+	"github.com/staciewilhelm/chatterton-messenger-server/domain"
+	"github.com/staciewilhelm/chatterton-messenger-server/middleware"
+	"github.com/staciewilhelm/chatterton-messenger-server/models"
 )
 
 type ApplicationHandlers struct {

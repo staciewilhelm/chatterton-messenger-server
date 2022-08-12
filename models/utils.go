@@ -3,7 +3,7 @@ package models
 import (
 	"fmt"
 
-	"chatterton-messenger-server/domain"
+	"github.com/staciewilhelm/chatterton-messenger-server/domain"
 )
 
 func GetMessagesSQLWithQueryParams(sql string, params *domain.QueryParams) string {

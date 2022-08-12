@@ -5,9 +5,16 @@ clean-code:
 	go fmt && go vet
 
 deps:
-	go mod
+	go mod download
+
+set-go-paths:
+	export GOROOT=$(GOROOT)
+	export GOPATH=$(GOPATH)
 
 start-clean: reset-db clean-code
+	go run main.go
+
+start-with-paths: clean-code set-go-paths
 	go run main.go
 
 start: clean-code

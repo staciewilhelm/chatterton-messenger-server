@@ -1,4 +1,4 @@
-module chatterton-messenger-server
+module github.com/staciewilhelm/chatterton-messenger-server
 
 go 1.19
 

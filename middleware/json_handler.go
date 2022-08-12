@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"chatterton-messenger-server/domain"
+	"github.com/staciewilhelm/chatterton-messenger-server/domain"
 )
 
 type (

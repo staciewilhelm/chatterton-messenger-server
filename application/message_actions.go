@@ -1,8 +1,8 @@
 package application
 
 import (
-	"chatterton-messenger-server/domain"
-	"chatterton-messenger-server/models"
+	"github.com/staciewilhelm/chatterton-messenger-server/domain"
+	"github.com/staciewilhelm/chatterton-messenger-server/models"
 )
 
 func (app *MessageApplication) CreateMessage(message *models.Message) (string, error) {

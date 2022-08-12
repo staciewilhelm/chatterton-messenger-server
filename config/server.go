@@ -10,8 +10,8 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"chatterton-messenger-server/handlers"
-	"chatterton-messenger-server/models"
+	"github.com/staciewilhelm/chatterton-messenger-server/handlers"
+	"github.com/staciewilhelm/chatterton-messenger-server/models"
 )
 
 func StartServer() {
