@@ -21,10 +21,12 @@ reset-db: setup-migrations
 setup-migrations:
 	export POSTGRESQL_URL='postgres://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_DATABASE)?sslmode=disable'
 
-migrate-down: setup-migrations
+migrate-down:
+	export POSTGRESQL_URL='postgres://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_DATABASE)?sslmode=disable'
 	migrate -database ${POSTGRESQL_URL} -path migrations down
 
-migrate-up: setup-migrations
+migrate-up:
+	export POSTGRESQL_URL='postgres://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_DATABASE)?sslmode=disable'
 	migrate -database ${POSTGRESQL_URL} -path migrations up
 
 # Tests
