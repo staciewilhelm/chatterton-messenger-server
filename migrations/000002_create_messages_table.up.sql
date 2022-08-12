@@ -1,7 +1,7 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS messages (
-    id text UNIQUE NOT NULL PRIMARY KEY,
+    id text UNIQUE NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
     recipient_id text NOT NULL,
     sender_id text NOT NULL,
     message_type text default 'message',
