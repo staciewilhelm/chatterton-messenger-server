@@ -24,31 +24,14 @@ func InitializeHTTP() *mux.Router {
 	return app.router()
 }
 
-func (app *ApplicationHandlers) router() *mux.Router {
-	r := mux.NewRouter().StrictSlash(true)
-
+func (app *ApplicationHandlers) createAPIRoutes(r *mux.Router) *mux.Router {
 	routers := r.PathPrefix("/api").Subrouter()
 	routers.Handle("/", middleware.JSONHandlerFunc(app.handleBaseGet)).Methods(http.MethodGet)
 
 	messageRouter := routers.PathPrefix("/messages").Subrouter()
-	messageRouter.Handle("/", middleware.JSONHandlerFunc(app.handleMessagesGet)).Methods(http.MethodGet)
+	messageRouter.Handle("", middleware.JSONHandlerFunc(app.handleMessagesGet)).Methods(http.MethodGet)
 
-	var port = os.Getenv("PORT")
-	if port == "" {
-		port = ":80"
-	}
-	host := fmt.Sprintf("127.0.0.1%v", port)
-	srv := &http.Server{
-		Addr:         host,
-		Handler:      routers,
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 10 * time.Second,
-	}
-
-	log.Println(fmt.Sprintf("Chatterton is up and running at: http://127.0.0.1%v", port))
-	log.Fatal(srv.ListenAndServe())
-
-	return r
+	return routers
 }
 
 func (app *ApplicationHandlers) handleBaseGet(w http.ResponseWriter, r *http.Request) (interface{}, error) {
@@ -67,4 +50,27 @@ func (app *ApplicationHandlers) handleMessagesGet(w http.ResponseWriter, req *ht
 	}
 
 	return resp, nil
+}
+
+func (app *ApplicationHandlers) router() *mux.Router {
+	r := mux.NewRouter().StrictSlash(true)
+	routers := app.createAPIRoutes(r)
+
+	var port = os.Getenv("PORT")
+	if port == "" {
+		port = ":80"
+	}
+
+	host := fmt.Sprintf("127.0.0.1%v", port)
+	srv := &http.Server{
+		Addr:         host,
+		Handler:      routers,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
+	}
+
+	log.Println(fmt.Sprintf("Chatterton is up and running at: http://127.0.0.1%v", port))
+	log.Fatal(srv.ListenAndServe())
+
+	return r
 }

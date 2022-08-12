@@ -67,14 +67,14 @@ Example error response
 }
 ```
 
-Request recent messages for a recipient from a specific sender by username
+Request recent messages for a recipient from a specific sender by userID
 - only messages from the _last 30 days_ are returned
 - a limit of 100 messages are returned
 - both sender and recipient are required
 
 Messages _from sender_ **brewster** _for recipient_ **bklein**
 ```shell
-curl -H "Content-Type: application/json" -X GET http://localhost:8080/api/messages?sender=brewster&recipient=bklein | json_pp
+curl -H "Content-Type: application/json" -X GET http://localhost:8080/api/messages?sender_id=1&recipient_id=2 | json_pp
 ```
 
 

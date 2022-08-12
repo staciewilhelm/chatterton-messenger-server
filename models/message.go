@@ -20,8 +20,8 @@ type Message struct {
 }
 
 func FindAll(params *domain.QueryParams) ([]Message, error) {
-	initialSQL := "SELECT * FROM messages WHERE created_at > now() - interval '30 day' ORDER BY created_at DESC"
-	sql := GetSQLWithQueryParams(initialSQL, params)
+	initialSQL := "SELECT * FROM messages"
+	sql := GetMessagesSQLWithQueryParams(initialSQL, params)
 
 	data, err := DB.Query(sql)
 	if err != nil {
