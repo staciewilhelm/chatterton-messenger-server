@@ -19,6 +19,28 @@ type Message struct {
 	CreatedAt   time.Time `json:"created_at"`
 }
 
+func Add(message *Message) (string, error) {
+	sql := fmt.Sprintf(
+		"INSERT INTO messages (recipient_id, sender_id, message_text) VALUES ('%s', '%s', '%s') RETURNING id;",
+		message.RecipientID, message.SenderID, message.Text)
+
+	data, err := DB.Query(sql)
+	if err != nil {
+		queryErr := fmt.Sprintf("error running query: %s", err)
+		return "", errors.New(queryErr)
+	}
+
+	var oneMessage Message
+	for data.Next() {
+		err = data.Scan(&oneMessage.ID)
+		if err != nil {
+			scanErr := fmt.Sprintf("error scanning data: %s", err)
+			return "", errors.New(scanErr)
+		}
+	}
+	return fmt.Sprintf("%s", oneMessage.ID), nil
+}
+
 func FindAll(params *domain.QueryParams) ([]Message, error) {
 	initialSQL := "SELECT * FROM messages"
 	sql := GetMessagesSQLWithQueryParams(initialSQL, params)

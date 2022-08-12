@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -13,6 +14,7 @@ import (
 	"chatterton-messenger-server/application"
 	"chatterton-messenger-server/domain"
 	"chatterton-messenger-server/middleware"
+	"chatterton-messenger-server/models"
 )
 
 type ApplicationHandlers struct {
@@ -29,6 +31,7 @@ func (app *ApplicationHandlers) createAPIRoutes(r *mux.Router) *mux.Router {
 	routers.Handle("/", middleware.JSONHandlerFunc(app.handleBaseGet)).Methods(http.MethodGet)
 
 	messageRouter := routers.PathPrefix("/messages").Subrouter()
+	messageRouter.Handle("", middleware.JSONHandlerFunc(app.handleMessagesPost)).Methods(http.MethodPost)
 	messageRouter.Handle("", middleware.JSONHandlerFunc(app.handleMessagesGet)).Methods(http.MethodGet)
 
 	return routers
@@ -46,6 +49,25 @@ func (app *ApplicationHandlers) handleMessagesGet(w http.ResponseWriter, req *ht
 	if err != nil {
 		log.Println("Error returning messages from app", err)
 		appErr := fmt.Sprintf("Error returning messages from app: %s", err)
+		return nil, errors.New(appErr)
+	}
+
+	return resp, nil
+}
+
+func (app *ApplicationHandlers) handleMessagesPost(w http.ResponseWriter, req *http.Request) (interface{}, error) {
+	message := &models.Message{}
+	err := json.NewDecoder(req.Body).Decode(message)
+	if err != nil {
+		log.Println("Error parsing request body data", err)
+		appErr := fmt.Sprintf("Error parsing request body data: %s", err)
+		return nil, errors.New(appErr)
+	}
+
+	resp, err := app.CreateMessage(message)
+	if err != nil {
+		log.Println("Error creating message", err)
+		appErr := fmt.Sprintf("Error creating message: %s", err)
 		return nil, errors.New(appErr)
 	}
 

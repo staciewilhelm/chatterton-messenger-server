@@ -15,7 +15,7 @@ Example success response
 {"response":{"message":"Success","code":"200"}}
 ```
 
-### Messages
+### Messages - GET
 Request recent messages from all senders. By default:
 - only messages from the _last 30 days_ are returned
 - a limit of 100 messages are returned
@@ -27,6 +27,16 @@ curl -H "Content-Type: application/json" -X GET http://localhost:8080/api/messag
 A _limit_ can be passed as a query param, but will be disregarded if greater than 100.
 ```shell
 curl -H "Content-Type: application/json" -X GET http://localhost:8080/api/messages?limit=5 | json_pp
+```
+
+Request recent messages for a recipient from a specific sender by userID
+- only messages from the _last 30 days_ are returned
+- a limit of 100 messages are returned
+- both sender and recipient are required
+
+Messages _from sender_ **brewster** _for recipient_ **bklein**
+```shell
+curl -H "Content-Type: application/json" -X GET http://localhost:8080/api/messages?sender_id=1&recipient_id=2 | json_pp
 ```
 
 Example response
@@ -67,16 +77,38 @@ Example error response
 }
 ```
 
-Request recent messages for a recipient from a specific sender by userID
-- only messages from the _last 30 days_ are returned
-- a limit of 100 messages are returned
-- both sender and recipient are required
+### Messages - POST
+A short text message can be sent from one user (the sender) to another (the recipient). An ID will be automatically
+generated
 
-Messages _from sender_ **brewster** _for recipient_ **bklein**
 ```shell
-curl -H "Content-Type: application/json" -X GET http://localhost:8080/api/messages?sender_id=1&recipient_id=2 | json_pp
+curl -H "Content-Type: application/json" -X POST  http://localhost:8080/api/messages -d '{
+    "recipient_id": "2",
+    "sender_id": "3",
+    "message_text": "This is my new message!"
+}' 
 ```
 
+Example response
+```shell
+{
+   "data" : "518cbed8-bd99-4b9b-a9e0-38d2d37a3e27",
+   "response" : {
+      "code" : "200",
+      "message" : "Success"
+   }
+}
+```
+
+Example error response
+```shell
+{
+   "response" : {
+      "code" : "400",
+      "message" : "Error creating message: an error occurred"
+   }
+}
+```
 
 ## Getting Started Locally
 ### Install
